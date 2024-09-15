@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server",
+    "start:prod": "node --watch --env-file=.env server",
     "dev": "node --watch --env-file=.env server"
   },
   "keywords": [],
@@ -14,5 +15,16 @@
   "dependencies": {
     "express": "^4.21.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.36.1",
+    "prettier": "^3.3.3"
   }
 }
