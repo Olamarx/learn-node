@@ -5,14 +5,13 @@ import {
   createTour,
   updateTour,
   deleteTour,
-  checkBody,
 } from "../controllers/tourController.js";
 
 const router = express.Router();
 
 // router.param("id", checkID);
 
-router.route("/").get(getTours).post(checkBody, createTour);
+router.route("/").get(getTours).post(createTour);
 
 router.route("/:id").get(getTour).patch(updateTour).delete(deleteTour);
 
