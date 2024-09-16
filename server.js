@@ -18,7 +18,7 @@ mongoose
     // console.log(con.connections);
     console.log("DB connection established");
   });
-
+ 
 // Start Server
 app.listen(port, () => {
   console.log(`App running on port ${port}`);
