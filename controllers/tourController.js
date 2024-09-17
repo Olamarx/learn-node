@@ -7,23 +7,35 @@ import Tour from "../models/tourModel.js";
 //   fs.readFileSync(`${__dirname}/../assets/tours-simple.json`)
 // );
 
-const getTours = (req, res) => {
-  console.log(req.requestTime);
-
-  //   Jsend formats to send data, but the 'results' key is not there
-  res.status(200).json({
-    status: "success",
-    requestedAt: req.requestTime,
-    // results: tours.length,
-    // data: { tours },
-  });
+const getTours = async (req, res) => {
+  try {
+    const tours = await Tour.find();
+    res.status(200).json({
+      status: "success",
+      requestedAt: req.requestTime,
+      results: tours.length,
+      data: { tours },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
 };
 
-const getTour = (req, res) => {
+const getTour = async (req, res) => {
   //   Jsend formats to send data, but the 'results' key is not there
-  const id = parseInt(req.params.id);
-  // const tour = tours.find((tour) => tour.id === id);
-  // res.status(200).json({ status: "success", data: { tour } });
+  try {
+    const id = req.params.id;
+    const tour = await Tour.findById(id);
+    res.status(200).json({ status: "success", data: { tour } });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
 };
 
 const createTour = async (req, res) => {
@@ -41,22 +53,41 @@ const createTour = async (req, res) => {
   }
 };
 
-const updateTour = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    message: "Tour updated successfully",
-    data: {
-      tour: "<Updated tour here...>",
-    },
-  });
+const updateTour = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const tour = await Tour.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({
+      status: "success",
+      message: "Tour updated successfully",
+      data: { tour },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
 };
 
-const deleteTour = (req, res) => {
-  res.status(204).json({
-    status: "success",
-    message: "Tour deleted successfully",
-    data: null,
-  });
+const deleteTour = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Tour.findByIdAndDelete(id);
+    res.status(204).json({
+      status: "success",
+      message: "Tour deleted successfully",
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
 };
 
 export { getTours, getTour, createTour, updateTour, deleteTour };
