@@ -1,23 +1,17 @@
 import Tour from "../models/tourModel.js";
 
-// created the __dirname since it is not in type module
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../assets/tours-simple.json`)
-// );
-
 const getTours = async (req, res) => {
   try {
+    // BUILD QUERY
+    // FILTERING
     const queryObj = { ...req.query };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((ind) => delete queryObj[ind]);
 
-    // console.log(req.query);
-
+    console.log("Any difference", req.query, queryObj);
+  //  ADVANCED FILTERING
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    // console.log(JSON.parse(queryStr));
 
     let query = Tour.find(JSON.parse(queryStr));
 
@@ -30,7 +24,11 @@ const getTours = async (req, res) => {
     //   .equals(5)
     //   .where("difficulty")
     //   .equals("easy");
+
+    // EXECUTE QUERY
     const tours = await query;
+
+    // SEND RESPONSE TO
     res.status(200).json({
       status: "success",
       requestedAt: req.requestTime,
