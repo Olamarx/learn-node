@@ -99,4 +99,17 @@ const deleteTour = async (req, res) => {
   }
 };
 
+const getTourStats = async (req, res) => {
+  try {
+    const stats = Tour.aggregate({
+      
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err.message,
+    });
+  }
+};
+
 export { getTours, getTour, createTour, updateTour, deleteTour, aliasTopTours };
